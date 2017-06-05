@@ -1,18 +1,24 @@
 <template>
-  <div id="gallery">
+  <div class="gallery">
     <div class="container">
       <div class="row">
-        <a v-on:click="count++" v-for="image in images" href="#"><div class="col-md-3 col-sm-4 col-xs-6"><img class="img-responsive" v-bind:src="image.thumbnail" /></div></a></div>
-        <h1>{{ count }}</h1>
+        <single-image :selectedImage="selectedImage"></single-image>
+        <image-list :images="images" @emitImage="showImage"></image-list>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+  import SingleImage from './SingleImage'
+  import ImageList from './ImageList'
+
   export default {
+    name: 'gallery',
+    components: {SingleImage, ImageList},
     data () {
       return {
-        selectedIage: '',
+        selectedImage: '',
         images: [
           {id: 1, title: 'First image', description: 'First image description', thumbnail: 'https://vuejsbook.com/img/vuejs/img1.jpg', imageLink: 'https://vuejsbook.com/img/vuejs/img1-l.jpg'},
           {id: 2, title: 'Second image', description: 'Second image description', thumbnail: 'https://vuejsbook.com/img/vuejs/img2.jpg', imageLink: 'https://vuejsbook.com/img/vuejs/img2-l.jpg'},
@@ -25,13 +31,16 @@
         ]
       }
     },
+
     methods: {
-      
+      showImage: function (image) {
+        this.selectedImage = image
+      }
     }
   }
 </script>
 
-<style scoped>
+<style>
   img {
     -webkit-box-shadow: 0px 1px 6px 1px rgba(0,0,0,0.75);
     -moz-box-shadow: 0px 1px 6px 1px rgba(0,0,0,0.75);
